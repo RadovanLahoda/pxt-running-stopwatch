@@ -1,18 +1,22 @@
 //Startovní čára
-radio.setGroup(73)
 Sensors.SetLightLevel()
+radio.setGroup(73)
 let start: boolean = false
-
-Sensors.OnLightDrop(function(){
-    //1 = start, 0 = zrušeno, 2 = konec
-    input.onButtonPressed(Button.A){
-
+let stopwatch: number = 0
+radio.onReceivedNumber(function (receivedNumber: number) {
+    if (!start){
+        stopwatch = input.runningTime()
+        whaleysans.showNumber(receivedNumber)
+        start = true
     }
-    if (!start)
-    radio.sendValue("start", 1)
-    start = true
 })
 
-radio.onReceivedValue(function("konec", 2){
-    whaleysans.showNumber(radio.receivedPacket)
+Sensors.OnLightDrop(function() {
+    if (start){
+        let finalTime: number
+        finalTime = input.runningTime() - stopwatch
+        //whaleysans.showNumber(input.runningTime())
+        radio.sendValue("totalTime", finalTime)
+        start = false
+    }
 })
