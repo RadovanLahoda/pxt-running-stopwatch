@@ -16,7 +16,7 @@ Sensors.OnLightDrop(function() {
         let finalTime: number
         finalTime = input.runningTime() - stopwatch
         //whaleysans.showNumber(input.runningTime())
-        radio.sendValue("totalTime", finalTime)
+        radio.sendValue("endTime", finalTime)
         start = false
     }
 })
